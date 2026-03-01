@@ -6,6 +6,11 @@ import OurWork from './pages/OurWork';
 import AboutUs from './pages/AboutUs';
 import Services from './pages/Services';
 import ContactUs from './pages/ContactUs';
+import Blog from './pages/Blog';
+import BlogPost from './pages/BlogPost';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import Careers from './pages/Careers';
+import Apply from './pages/Apply';
 
 export default function App() {
   return (
@@ -17,6 +22,11 @@ export default function App() {
           <Route path="about-us" element={<AboutUs />} />
           <Route path="services" element={<Services />} />
           <Route path="contact-us" element={<ContactUs />} />
+          <Route path="blog" element={<Blog />} />
+          <Route path="blog/:id" element={<BlogPost />} />
+          <Route path="privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="careers" element={<Careers />} />
+          <Route path="apply" element={<Apply />} />
         </Route>
       </Routes>
     </Router>

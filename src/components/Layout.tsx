@@ -1,10 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { Menu, Linkedin, Instagram, Facebook, X } from 'lucide-react';
 
 export default function Layout() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+
+  // Scroll to top when the route changes
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
 
   const navLinks = [
     { name: 'Home', path: '/' },
@@ -15,7 +20,7 @@ export default function Layout() {
   ];
 
   const socialLinks = {
-    linkedin: 'https://linkedin.com',
+    linkedin: 'https://www.linkedin.com/company/terceroconstruction/',
     instagram: 'https://instagram.com',
     facebook: 'https://facebook.com',
   };
@@ -116,6 +121,7 @@ export default function Layout() {
                 <li><Link to="/our-work" className="hover:text-white transition-colors">Portfolio</Link></li>
                 <li><Link to="/about-us" className="hover:text-white transition-colors">About Us</Link></li>
                 <li><Link to="/services" className="hover:text-white transition-colors">Services</Link></li>
+                <li><Link to="/blog" className="hover:text-white transition-colors">Blog & News</Link></li>
               </ul>
             </div>
             
@@ -123,7 +129,7 @@ export default function Layout() {
               <h4 className="text-white text-lg font-bold uppercase tracking-wider mb-6">Contact</h4>
               <ul className="space-y-4">
                 <li><Link to="/contact-us" className="hover:text-white transition-colors">Get a Quote</Link></li>
-                <li><Link to="/contact-us" className="hover:text-white transition-colors">Careers</Link></li>
+                <li><Link to="/careers" className="hover:text-white transition-colors">Careers</Link></li>
                 <li><Link to="/contact-us" className="hover:text-white transition-colors">Contact Us</Link></li>
               </ul>
             </div>
@@ -132,7 +138,7 @@ export default function Layout() {
           <div className="border-t border-gray-800 pt-10 text-center text-sm flex flex-col md:flex-row justify-between items-center">
             <p>&copy; {new Date().getFullYear()} Tercero Construction CO. All Rights Reserved.</p>
             <div className="mt-4 md:mt-0 space-x-6">
-              <Link to="/" className="hover:text-white transition-colors">Privacy Policy</Link>
+              <Link to="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
               <Link to="/" className="hover:text-white transition-colors">Terms of Service</Link>
             </div>
           </div>
