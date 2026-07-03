@@ -15,7 +15,7 @@ export default async function handler(req, res) {
       body: JSON.stringify({
         // 'onboarding@resend.dev' is a testing email that only allows sending TO the email you used to sign up for Resend.
         from: 'Tercero Leads <onboarding@resend.dev>', 
-        to: 'YOUR_EMAIL@DOMAIN.COM', // REPLACE THIS with the email you used to sign up for Resend
+        to: 'info@terceroconstruction.com', // REPLACE THIS with the email you used to sign up for Resend
         subject: `New Commercial Lead: ${name}`,
         html: `<p><strong>Name:</strong> ${name}</p>
                <p><strong>Email:</strong> ${email}</p>
