@@ -5,11 +5,36 @@ import { Link } from 'react-router-dom';
 export default function ContactUs() {
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // In a real application, this would send a request to a backend server.
-    // The backend would then process the form data and send the email via an SMTP service.
-    setIsSubmitted(true);
+    
+    // Scoop up all the data from the form
+    const formData = new FormData(e.currentTarget);
+    const firstName = formData.get('firstName');
+    const lastName = formData.get('lastName');
+    const email = formData.get('email');
+    const phone = formData.get('phone');
+    const service = formData.get('service');
+    const rawMessage = formData.get('message');
+
+    // Combine first and last name
+    const name = `${firstName} ${lastName}`;
+    
+    // Bundle the extra form details into the message body for the email
+    const fullMessage = `Phone: ${phone}\nService Requested: ${service}\n\nProject Details:\n${rawMessage}`;
+
+    const response = await fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, message: fullMessage }),
+    });
+
+    if (response.ok) {
+      // Flips the switch to show your success screen
+      setIsSubmitted(true);
+    } else {
+      alert("There was an error sending your message. Please try again.");
+    }
   };
 
   if (isSubmitted) {
@@ -19,7 +44,7 @@ export default function ContactUs() {
           <CheckCircle className="w-20 h-20 text-green-500 mx-auto mb-6" />
           <h2 className="text-3xl font-extrabold text-gray-900 mb-4">Message Sent!</h2>
           <p className="text-gray-600 mb-8 leading-relaxed">
-            Thank you for reaching out. Your message has been successfully sent to <a href="mailto:info@terceroconstruction.com" className="text-blue-700 hover:underline font-bold">info@terceroconstruction.com</a> with the subject "Contact Us". We will get back to you shortly.
+            Thank you for reaching out. Your message has been successfully sent to <a href="mailto:info@terceroconstruction.com" className="text-blue-700 hover:underline font-bold">info@terceroconstruction.com</a>. We will get back to you shortly.
           </p>
           <Link to="/" className="inline-block px-8 py-4 bg-blue-700 hover:bg-blue-800 text-white font-bold rounded transition duration-300 uppercase tracking-wide text-sm">
             Return Home
@@ -74,7 +99,7 @@ export default function ContactUs() {
                   </div>
                   <div className="ml-4">
                     <h4 className="text-lg font-bold text-gray-900">Phone</h4>
-                    <p className="text-gray-600 mt-1">(555) 123-4567</p>
+                    <p className="text-gray-600 mt-1">(719) 308-8120</p>
                   </div>
                 </div>
 
@@ -108,28 +133,28 @@ export default function ContactUs() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                       <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-2">First Name</label>
-                      <input type="text" id="firstName" required className="w-full px-4 py-3 rounded-md border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="John" />
+                      <input type="text" id="firstName" name="firstName" required className="w-full px-4 py-3 rounded-md border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="John" />
                     </div>
                     <div>
                       <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-2">Last Name</label>
-                      <input type="text" id="lastName" required className="w-full px-4 py-3 rounded-md border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Doe" />
+                      <input type="text" id="lastName" name="lastName" required className="w-full px-4 py-3 rounded-md border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Doe" />
                     </div>
                   </div>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                       <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
-                      <input type="email" id="email" required className="w-full px-4 py-3 rounded-md border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="john@example.com" />
+                      <input type="email" id="email" name="email" required className="w-full px-4 py-3 rounded-md border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="john@example.com" />
                     </div>
                     <div>
                       <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
-                      <input type="tel" id="phone" required className="w-full px-4 py-3 rounded-md border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="(555) 123-4567" />
+                      <input type="tel" id="phone" name="phone" required className="w-full px-4 py-3 rounded-md border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="(555) 123-4567" />
                     </div>
                   </div>
 
                   <div>
                     <label htmlFor="service" className="block text-sm font-medium text-gray-700 mb-2">Service of Interest</label>
-                    <select id="service" required className="w-full px-4 py-3 rounded-md border border-gray-300 focus:ring-blue-500 focus:border-blue-500 bg-white">
+                    <select id="service" name="service" required className="w-full px-4 py-3 rounded-md border border-gray-300 focus:ring-blue-500 focus:border-blue-500 bg-white">
                       <option value="">Select a service...</option>
                       <option value="Residential Construction">Residential Construction</option>
                       <option value="Commercial Construction">Commercial Construction</option>
@@ -140,7 +165,7 @@ export default function ContactUs() {
 
                   <div>
                     <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">Message</label>
-                    <textarea id="message" required rows={5} className="w-full px-4 py-3 rounded-md border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Tell us about your project..."></textarea>
+                    <textarea id="message" name="message" required rows={5} className="w-full px-4 py-3 rounded-md border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Tell us about your project..."></textarea>
                   </div>
 
                   <div className="pt-4">
