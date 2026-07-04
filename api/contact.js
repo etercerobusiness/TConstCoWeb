@@ -16,9 +16,7 @@ export default async function handler(req, res) {
       body: JSON.stringify({
         from: 'Tercero Leads <onboarding@resend.dev>', 
         to: 'info@terceroconstruction.com', 
-        // Including the service requested in the subject can also help HubSpot workflows filter incoming leads
-        subject: `New Lead: ${name} - ${service || 'General Inquiry'}`,
-        // Formatted with distinct tags on separate lines so CRM lead parsers can map them effortlessly
+        subject: `New Lead: ${name}`,
         html: `
           <p><strong>Name:</strong> ${name}</p>
           <p><strong>Email:</strong> ${email}</p>
