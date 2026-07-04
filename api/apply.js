@@ -14,7 +14,7 @@ export default async function handler(req, res) {
 
     const data = await resend.emails.send({
       from: 'onboarding@resend.dev', // Or your verified domain email once set up
-      to: 'info@trueserverconstruction.com', // Replace with your exact Resend registered email
+      to: 'info@terceroconstruction.com', // Replace with your exact Resend registered email
       subject: `New Job Application: ${name} - ${position || 'Applicant'}`,
       html: `
         <h2>New Job Application Received</h2>
